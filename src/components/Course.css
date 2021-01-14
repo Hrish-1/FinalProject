@@ -1,0 +1,11 @@
+.lang__name{
+    line-height: 30px;
+    font-size: large;
+    font-weight: 700;
+}
+.card__main{
+    cursor: pointer;
+}
+.card__main:hover{
+    transform: scale(1.05);
+}
