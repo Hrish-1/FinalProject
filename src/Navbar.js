@@ -16,13 +16,13 @@ function Nav(){
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul className="navbar-nav ml-auto">
                     <li className="nav-item active mx-3">
-                        <a className="nav-link" href="#" style={{"color" : "#112d4e"}}>Home</a>
+                        <a className="nav-link"  style={{"color" : "#112d4e"}}>Home</a>
                     </li>
                     <li className="nav-item mx-3">
-                        <a className="nav-link" href="#" style={{"color" : "#112d4e"}}>Features</a>
+                        <a className="nav-link"  style={{"color" : "#112d4e"}}>Features</a>
                     </li>
                     <li className="nav-item mx-3">
-                        <a className="nav-link" href="#" style={{"color" : "#112d4e"}}>Pricing</a>
+                        <a className="nav-link"  style={{"color" : "#112d4e"}}>Pricing</a>
                     </li>
                     </ul>
                 </div>

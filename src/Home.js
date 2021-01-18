@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import Nav from "./Navbar";
 import './Home.css';
 import Course from './components/Course.js';
@@ -12,6 +12,7 @@ import chash from './images/chash.png';
 import { Link } from "react-router-dom";
 
 function Home() {
+    //const {asyncCaller} = useContext(QuizContext);
     const languages = [{
                             "name" : chash,
                             "first" :"C-SHARP"
@@ -33,6 +34,14 @@ function Home() {
                             "first" : "PYTHON"
                         }
                         ];
+
+    const [language,setLanguage] = useState({
+                0 : "Csharp1",
+                1 : "Cpp1",
+                2 : "Java1",
+                3 : "Nodejs1",
+                4 : "Python1"
+    });
     return( 
     <div className = "container-fluid">
         <Nav/>
@@ -48,11 +57,10 @@ function Home() {
         <div className="courses-offered">
             <p className = "font-weight-bold mx-4">COURSES OFFERED</p>
             <div className = "d-flex flex-wrap ml-4">
-                { languages.map( lang => (
-                        <Course title = {lang.name} info = {lang.first}/>
+                { languages.map( (lang,index) => (
+                    <Link to = {"/"+language[index]} style = {{textDecoration : "none"}}><Course title = {lang.name} info = {lang.first}/></Link> 
                 ))}
             </div>
-            
         </div>
     </div>
     );

@@ -5,7 +5,7 @@ import { BsCodeSlash } from "react-icons/bs";
 
 function Footer(){
     return(
-        <div class="container-fluid card-footer text-muted">
+        <div className="container-fluid card-footer text-muted">
             
             <BsCodeSlash size="3em"/>
             
