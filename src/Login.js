@@ -8,6 +8,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { FcGoogle } from "react-icons/fc";
 import { GrFacebook,GrGithub,GrTwitter,GrLinkedin } from "react-icons/gr";
 
+
 function Login(){
     const [isValid,setIsValid] = useState(false);
     let history = useHistory();
@@ -23,10 +24,14 @@ function Login(){
     }
     const getUser = async () => {
         const response = await fetch('http://localhost:8080/logina',reqBody);
-        const data = await response;
+        const data = await response.json();
         console.log(data);
-        if(data.status === 200)
+        console.log(data.username);
+        if(data.username === isUser.emailId){
+            sessionStorage.setItem("token",data.authenticationToken);
             setIsValid(true);
+        }
+            
     }
     const validateUser = (e) => {
         const {name,value} = e.target;
@@ -66,7 +71,7 @@ function Login(){
                                 <Link to="/Forgot">I forgot my password</Link>
                              </div>
 
-                            <div className="mt-3" onClick = {() => {getUser()}}>
+                            <div className="mt-3" onClick = {getUser}>
                                 {isValid && history.push("/")}
                                 <input class="btn text-light" type = "button" value="Login" style={{"backgroundColor" : "#3f72af"}} />
                             </div>

@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import Nav from "./Navbar";
 import './Home.css';
 import Course from './components/Course.js';
@@ -13,35 +13,17 @@ import { Link } from "react-router-dom";
 
 function Home() {
     //const {asyncCaller} = useContext(QuizContext);
-    const languages = [{
-                            "name" : chash,
-                            "first" :"C-SHARP"
-                        },
-                        {
-                            "name" : cpp,
-                            "first" :"C++"
-                        },
-                        {
-                            "name" : java,
-                            "first" : "JAVA"
-                        },
-                        {
-                            "name" : nodejs,
-                            "first" : "NODEJS"
-                        },
-                        {
-                            "name" : python,
-                            "first" : "PYTHON"
-                        }
-                        ];
-
-    const [language,setLanguage] = useState({
-                0 : "Csharp1",
-                1 : "Cpp1",
-                2 : "Java1",
-                3 : "Nodejs1",
-                4 : "Python1"
-    });
+    const [courses,setCourses] = useState([]);
+    const fetchAllCourses = async () => {
+        const response = await fetch('http://localhost:8080/all-courses');
+        const data = await response.json();
+        console.log(data);
+        setCourses(data);
+    }
+    useEffect(() =>{
+        fetchAllCourses();
+    },[]);
+ 
     return( 
     <div className = "container-fluid">
         <Nav/>
@@ -57,8 +39,8 @@ function Home() {
         <div className="courses-offered">
             <p className = "font-weight-bold mx-4">COURSES OFFERED</p>
             <div className = "d-flex flex-wrap ml-4">
-                { languages.map( (lang,index) => (
-                    <Link to = {"/"+language[index]} style = {{textDecoration : "none"}}><Course title = {lang.name} info = {lang.first}/></Link> 
+                { courses.map( (course,index) => (
+                    <Link to = {"/"+course.courseName} style = {{textDecoration : "none"}}><Course title = {course.photo} info = {course.courseName}/></Link> 
                 ))}
             </div>
         </div>

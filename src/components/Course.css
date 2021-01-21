@@ -2,6 +2,7 @@
     line-height: 30px;
     font-size: large;
     font-weight: 700;
+    text-transform: uppercase;
 }
 .card__main{
     cursor: pointer;

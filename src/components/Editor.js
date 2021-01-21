@@ -116,7 +116,7 @@ const Editor = (props) => {
             <span className = "mx-2" style = {{fontSize : "2.5em"}}><FaLaptopCode/></span>
             <span className="mx-2 mt-4 font-weight-bold">CODE HERE</span>
         </div>
-        <div className="row">
+        <div className="row Eheight">
             <ControlledEditor language={props.language} value = {input} onChange = {(e,v) => setInput(v)} />
         </div>
         <div className="btn btn-success" onClick = {() => {getOutput()}}>Run...</div>

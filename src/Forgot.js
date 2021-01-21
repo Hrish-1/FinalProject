@@ -9,6 +9,7 @@ function Forgot(){
         <div className="container-fluid">
            <div className="row">
                <Nav />
+               {/* <img src="/images/quiz-background.jpg" alt=""/> */}
             </div> 
             <div className="row">
             <div className="col-4">
