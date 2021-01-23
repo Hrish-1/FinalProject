@@ -25,7 +25,7 @@ function Home() {
     },[]);
  
     return( 
-    <div className = "container-fluid">
+    <div className = "container-fluid p-0">
         <Nav/>
         <header className = "d-flex">
             <img src = {image} height = "500px" width = "900px" alt = "ed"/>

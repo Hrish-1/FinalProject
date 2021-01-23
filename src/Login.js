@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { FcGoogle } from "react-icons/fc";
 import { GrFacebook,GrGithub,GrTwitter,GrLinkedin } from "react-icons/gr";
-
+import jwt_decode from "jwt-decode";
 
 function Login(){
     const [isValid,setIsValid] = useState(false);
@@ -23,15 +23,30 @@ function Login(){
         body : JSON.stringify(isUser)
     }
     const getUser = async () => {
-        const response = await fetch('http://localhost:8080/logina',reqBody);
-        const data = await response.json();
-        console.log(data);
-        console.log(data.username);
-        if(data.username === isUser.emailId){
-            sessionStorage.setItem("token",data.authenticationToken);
-            setIsValid(true);
+        try{
+            const response = await fetch('http://localhost:8080/logina',reqBody);
+            const data = await response.json();
+            console.log(data);
+            console.log(data.username);
+            var token = data.authToken;
+            var { exp } = jwt_decode(token);
+            console.log(exp);
+            if(exp > new Date().getTime() / 1000){
+                sessionStorage.setItem("token",data.authenticationToken);
+                setIsValid(true);
+            }else{
+                setIsUser({
+                    "emailId" : "",
+                    "password" : ""
+                })
+            }
+        }catch(e){
+            setIsUser({
+                "emailId" : "",
+                "password" : ""
+            })
         }
-            
+        
     }
     const validateUser = (e) => {
         const {name,value} = e.target;
@@ -60,12 +75,12 @@ function Login(){
                             <h3>Log in to ELearn</h3>
                             <div className="mt-3">
                                 <label>Email</label>
-                                <input name = "emailId" type="text" onChange = {validateUser} className="form-control w-75"/>
+                                <input name = "emailId" type="text" value = {isUser.emailId} onChange = {validateUser} className="form-control w-75"/>
                             </div>
 
                             <div className="mt-3">
                                 <label>Password</label>
-                                <input name = "password" onChange = {validateUser} type="password" class="form-control w-75" />
+                                <input name = "password" value = {isUser.password} onChange = {validateUser} type="password" class="form-control w-75" />
                             </div>
                             <div className="mt-3">
                                 <Link to="/Forgot">I forgot my password</Link>

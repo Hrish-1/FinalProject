@@ -6,16 +6,25 @@ import './Test.css'
 import { convertToHTML } from 'draft-convert';
 import DOMPurify from 'dompurify';
 import 'bootstrap'
-import NavBar from './Navbar'
+import NavBar from '../Navbar'
 import Test2 from './Test2'
 import Immutable from 'immutable'
 import TestCase from './TestCase'
 
-const Test = () => {
+const Test = ({match}) => {
     const [editorState, setEditorState] = useState(
         () => EditorState.createEmpty(),
     );
     const  [convertedContent, setConvertedContent] = useState(null);
+
+    const [problemData,setProblemData] = useState({
+        "problemName" : "",
+        "difficulty" : "Easy",
+        "tags" : match.params.id
+    });
+    const [problem,setProblem] = useState({});
+    const [testObject,setTestObject] = useState({});
+
     const handleEditorChange = (state) => {
       setEditorState(state);
       convertContentToHTML();
@@ -36,6 +45,13 @@ const Test = () => {
     });
     const [testCase,setTestCases] = useState([]);
 
+    const handleProbDetails = (e) => {
+        const {name,value} = e.target;
+        setProblemData(prev => {
+                return {...prev,[name] : value}
+        })
+    }
+
     const handleChange = (e) => {
         const {name,value} = e.target;
         setTestContent(prevValue => {
@@ -47,12 +63,46 @@ const Test = () => {
         console.log(testContent);
         setTestCases( prev => [...prev,testContent]);
         //setTestCases([...testContent,testCase]);
+        const {input,output} = testContent;
+        setTestObject(prev => {
+                return {
+                    ...prev,
+                    [input] : output
+                }  
+        })
         setTestContent({
             "input" : "",
             "output" : ""
         });
         //setTestCases([]);
         console.log(testCase);
+    }
+
+    const submitProblem = () => {
+
+        const {problemName,difficulty,tags} = problemData;
+
+        // testCase.map(test => {
+        //     const {input,output} = test;
+        //     setTestObject(prev => {
+        //         return {
+        //             ...prev,
+        //             [input] : output
+        //         }
+        //     })
+        // })
+        
+         
+         setProblem(
+             {
+                 problemName,
+                 difficulty,
+                 tags,
+                 "description" : convertedContent,
+                 "testCases" : testObject
+             }
+         )
+         console.log(problem);
     }
 
     const deleteTest = (id) => {
@@ -69,7 +119,21 @@ const Test = () => {
             <div className = "row">
                 <div className = "col-2"></div>
                 <div className = "col-8">
-                    <Test2 />
+                    <h4 className = "mx-3 my-3 text-center">Create a new problem</h4>
+                    <div>
+                        <p className = "mt-3">problem name</p>
+                        <input type="text" name = "problemName" onChange = {handleProbDetails} className = "form-control" style = {{height : "35px",width : "400px"}} />
+                        <p className = "mt-3">select difficulty</p>
+                        <select name="difficulty" id="difficulty" onChange = {handleProbDetails}
+                        style = {{width : "150px",height : "30px",outline : "none"}}
+                        >
+                            <option value="Easy">Easy</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    <p className = "mt-3">tags</p>
+                    <input type="text" name = "tags" defaultValue = {problemData.tags} className = "form-control" style = {{height : "35px",width : "400px"}} />
+                    </div>
                 </div>
                 <div className = "col-2"></div>
             </div>
@@ -101,7 +165,7 @@ const Test = () => {
                          }
                         </ul>   
                     </div>
-                    <button className = "btn btn-outline-success">Submit</button>
+                    <button className = "btn btn-outline-success" onClick = {() => {submitProblem()}}>Submit</button>
                 </div>
                 <div className = "col-2"></div>
             </div>
